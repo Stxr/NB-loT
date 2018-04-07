@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NB_loT</string>
+    <string name="hint_id">账号</string>
+    <string name="hint_password">密码</string>
+    <string name="sign_in">登录</string>
+    <string name="QRScan">二维码扫描</string>
+</resources>
