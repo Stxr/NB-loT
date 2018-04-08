@@ -32,5 +32,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //QRCode
     implementation 'cn.bingoogolapple:bga-qrcode-zbar:1.2.1'
-
+    //Gson解析
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

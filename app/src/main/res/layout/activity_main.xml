@@ -11,8 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
     <Button
-        android:text=""
+        android:text="发送"
         android:id="@+id/btn_subscribe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_display_code"
+        android:hint="二维码显示"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -50,5 +50,6 @@ public class TestCallback extends UsrCloudMqttCallbackAdapter {
     public void onPublishDataAck(int messageId, String topic, boolean isSuccess) {
         super.onPublishDataAck(messageId, topic, isSuccess);
         Log.e(TAG, "onPublishDataAck() called with: messageId = [" + messageId + "], topic = [" + topic + "], isSuccess = [" + isSuccess + "]");
+        callback.isSuccess(isSuccess);
     }
 }

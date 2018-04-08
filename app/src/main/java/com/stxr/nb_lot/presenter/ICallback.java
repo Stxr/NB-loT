@@ -9,10 +9,17 @@ public interface ICallback {
 
     void receive(byte[] data);
 
-//    void
+    void isSuccess(boolean isSuccess);
+
+    //    void
     abstract class Login implements ICallback {
         @Override
         public void receive(byte[] data) {
+
+        }
+
+        @Override
+        public void isSuccess(boolean isSuccess) {
 
         }
     }
@@ -20,6 +27,11 @@ public interface ICallback {
     abstract class Receive implements ICallback {
         @Override
         public void login(boolean isSuccess) {
+
+        }
+
+        @Override
+        public void isSuccess(boolean isSuccess) {
 
         }
     }

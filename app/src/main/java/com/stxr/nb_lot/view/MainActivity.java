@@ -1,12 +1,16 @@
 package com.stxr.nb_lot.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.stxr.nb_lot.R;
+import com.stxr.nb_lot.entity.QRCodeEntity;
 import com.stxr.nb_lot.myconst.MyConst;
 import com.stxr.nb_lot.presenter.ICallback;
 import com.stxr.nb_lot.presenter.UserNBloT;
@@ -18,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
+    public static final int REQUEST_CODE = 32;
     @BindView(R.id.btn_subscribe)
     Button button;
     private UserNBloT client;
@@ -25,6 +30,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.tv_display_code)
+    TextView tv_display_code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,11 +57,12 @@ public class MainActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.scan:
-                        startActivity(QRScanActivity.class);
+//                        startActivity(QRScanActivity.class);
+                        Intent intent = new Intent(MainActivity.this, QRScanActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE);
                         break;
                     default:
                         break;
-
                 }
                 return true;
             }
@@ -62,10 +70,24 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //扫描二维码得到的是json对象
+        if (requestCode == REQUEST_CODE && resultCode == QRScanActivity.RESULT_CODE) {
+            String json = data.getStringExtra(QRScanActivity.RESULT);
+            tv_display_code.setText(json);
+            QRCodeEntity code = new Gson().fromJson(json, QRCodeEntity.class);
+            client.send(code.getId(),new byte[]{12});
+        }
+    }
+
     @OnClick(R.id.btn_subscribe)
     void onSubscribe() {
         client.send(MyConst.ID, new byte[]{12});
     }
+
+
 
     @Override
     protected void onDestroy() {

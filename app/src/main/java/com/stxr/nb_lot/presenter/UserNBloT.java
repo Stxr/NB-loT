@@ -1,5 +1,9 @@
 package com.stxr.nb_lot.presenter;
 
+import android.util.Log;
+
+import com.stxr.nb_lot.utils.Tool;
+
 /**
  * Created by stxr on 2018/4/6.
  */
@@ -8,6 +12,7 @@ public class UserNBloT {
     private static IClient client;
     private static TestClient testClient;
     private volatile static UserNBloT INSTANCE;
+    private String TAG = "UserNBloT";
 
     public static UserNBloT getInstance(ICallback callback) {
         if (INSTANCE == null) {
@@ -31,6 +36,7 @@ public class UserNBloT {
     }
 
     public void send(String id, byte[] data) {
+        Log.d(TAG, "send() called with: id = [" + id + "], data = [" + Tool.bytesToString(data) + "]");
         client.send(id, data);
     }
 
