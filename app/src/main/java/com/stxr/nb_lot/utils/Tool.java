@@ -1,5 +1,9 @@
 package com.stxr.nb_lot.utils;
 
+import android.util.Xml;
+
+import java.util.Base64;
+
 /**
  * Created by stxr on 2018/4/8.
  */

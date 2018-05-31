@@ -1,4 +1,4 @@
-package com.stxr.nb_lot.view;
+package com.stxr.nb_lot.ui;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.stxr.nb_lot.view.CustomLoadingDialog;
+
+import butterknife.ButterKnife;
+
 /**
  * Created by stxr on 2018/4/4.
  */
@@ -19,9 +23,18 @@ import android.widget.Toast;
 public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
     protected String TAG = getClass().getSimpleName();
+    protected CustomLoadingDialog loadingDialog;
+
+    abstract int getLayoutResId();
+
+    abstract String title();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutResId());
+        setTitle(title());
+        ButterKnife.bind(this);
+        loadingDialog = new CustomLoadingDialog(this, "正在加载");
         requestPermission();
     }
     protected void toast(String text) {

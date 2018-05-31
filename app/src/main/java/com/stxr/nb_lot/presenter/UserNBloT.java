@@ -9,6 +9,8 @@ import com.stxr.nb_lot.utils.Tool;
  */
 
 public class UserNBloT {
+
+
     private static IClient client;
     private static TestClient testClient;
     private volatile static UserNBloT INSTANCE;
@@ -47,5 +49,7 @@ public class UserNBloT {
     public void disSubscribe() {
         client.disSubscribe();
     }
-
+    public static IClient getClient() {
+        return client;
+    }
 }

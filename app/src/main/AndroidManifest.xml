@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MyApplication"
@@ -14,18 +19,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.SignInActivity">
+        <activity android:name=".ui.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
-            android:theme="@style/NoActionBar" />
+            android:name=".ui.MainActivity" />
         <activity
-            android:name=".view.QRScanActivity"
+            android:name=".ui.QRScanActivity"
             android:theme="@style/NoActionBar" />
+
+        <activity android:name="com.eagle.pay66.PayActivity" android:exported="true" />
+        <activity android:name=".ui.SignUpActivity" />
+        <activity android:name=".ui.DetailsActivity" />
 
         <service android:name=".service.MyService" />
     </application>
