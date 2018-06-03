@@ -14,11 +14,13 @@ import com.google.gson.reflect.TypeToken;
 import com.stxr.nb_lot.R;
 import com.stxr.nb_lot.adapter.InterestAdapter;
 import com.stxr.nb_lot.entity.InterestEntity;
+import com.stxr.nb_lot.entity.MyID;
 import com.stxr.nb_lot.myconst.MyConst;
 import com.stxr.nb_lot.presenter.ICallback;
 import com.stxr.nb_lot.presenter.UserNBloT;
 import com.stxr.nb_lot.utils.InterestUtil;
 import com.stxr.nb_lot.utils.PayUtil;
+import com.stxr.nb_lot.utils.ToastUtil;
 import com.stxr.nb_lot.utils.Tool;
 
 import org.json.JSONArray;
@@ -30,6 +32,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends BaseActivity {
     public static final int REQUEST_CODE = 32;
@@ -104,14 +111,40 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //扫描二维码得到的是json对象
         if (requestCode == REQUEST_CODE && resultCode == QRScanActivity.RESULT_CODE) {
-            String id = data.getStringExtra(QRScanActivity.RESULT);
-            PayUtil payUtil = new PayUtil();
-            payUtil.pay(MainActivity.this, new PayUtil.OnPayResponse() {
+            final String id = data.getStringExtra(QRScanActivity.RESULT);
+            final MyID myID = new MyID();
+            myID.setId(id);
+            final BmobQuery<MyID> query = new BmobQuery<>();
+            query.addWhereRelatedTo("lockId", new BmobPointer(currentUser));
+            query.findObjects(new FindListener<MyID>() {
                 @Override
-                public void onSuccess(String s) {
-                    client.send(MyConst.ID1, new byte[]{49});
+                public void done(List<MyID> list, BmobException e) {
+                    if (list.contains(myID)) {
+                        client.send(MyConst.ID1, new byte[]{49});
+                        MyID id1 = list.get(list.indexOf(myID));
+                        currentUser.getLockId().remove(id1);
+                        currentUser.update(new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    toast("删除成功");
+                                } else {
+                                    toast(e.getMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        PayUtil payUtil = new PayUtil();
+                        payUtil.pay(MainActivity.this,"景区购票","扫码支付", new PayUtil.OnPayResponse() {
+                            @Override
+                            public void onSuccess(String s) {
+                                client.send(MyConst.ID1, new byte[]{49});
+                            }
+                        });
+                    }
                 }
             });
+
         }
     }
 

@@ -21,8 +21,8 @@ public class PayUtil {
 
     private Activity activity;
 
-    public void pay(final Activity activity, final OnPayResponse response) {
-        Pay66.createOrder(1, "商品名称", "商品描述", new CommonListener() {
+    public void pay(final Activity activity, String name,String description,final OnPayResponse response) {
+        Pay66.createOrder(1, name, description, new CommonListener() {
             @Override
             public void onStart() {
 //                Log.d(TAG, "onStart: ");

@@ -75,7 +75,7 @@ public class DetailsActivity extends BaseActivity {
     @OnClick(R.id.tv_ticket_buy)
     void pay() {
         PayUtil payUtil = new PayUtil();
-        payUtil.pay(DetailsActivity.this, new PayUtil.OnPayResponse() {
+        payUtil.pay(DetailsActivity.this,interestEntity.getName(),"购票", new PayUtil.OnPayResponse() {
             @Override
             public void onSuccess(String s) {
                 final MyID id = new MyID();

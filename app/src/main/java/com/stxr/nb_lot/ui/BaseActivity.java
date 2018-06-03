@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.stxr.nb_lot.entity.MyUser;
 import com.stxr.nb_lot.view.CustomLoadingDialog;
 
 import butterknife.ButterKnife;
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by stxr on 2018/4/4.
@@ -24,7 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
     protected String TAG = getClass().getSimpleName();
     protected CustomLoadingDialog loadingDialog;
-
+    protected MyUser currentUser  = BmobUser.getCurrentUser(MyUser.class);
     abstract int getLayoutResId();
 
     abstract String title();
